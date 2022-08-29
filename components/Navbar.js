@@ -68,6 +68,14 @@ const Navbar = () => {
             <AiFillPlusCircle className="cursor-pointer" />
           </div>
         </div>
+        <div className="flex justify-start ml-4 space-x-3">
+          <button className=" text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+            Checkout
+          </button>
+          <button className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+            Clear Cart
+          </button>
+        </div>
       </div>
     </nav>
   );

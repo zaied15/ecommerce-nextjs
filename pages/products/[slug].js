@@ -1,9 +1,25 @@
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const Slug = () => {
   const router = useRouter();
   const { slug } = router.query;
+  const [pin, setPin] = useState();
+  const [service, setService] = useState(null);
 
+  const checkAvailibility = async () => {
+    const pins = await fetch("http://localhost:3000/api/pinapi");
+    const pinJson = await pins.json();
+    if (pinJson.includes(parseInt(pin))) {
+      setService(true);
+    } else {
+      setService(false);
+    }
+    console.log(pin);
+  };
+  const pinChange = (e) => {
+    setPin(e.target.value);
+  };
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
@@ -178,6 +194,31 @@ const Slug = () => {
                 </svg>
               </button>
             </div>
+            <div className="pin flex space-x-2 mt-5">
+              <input
+                onChange={pinChange}
+                type="text"
+                name="pin"
+                placeholder="Enter your zip code"
+                className="border outline-none rounded p-1"
+              />
+              <button
+                onClick={checkAvailibility}
+                className="flex ml-14 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+              >
+                Check
+              </button>
+            </div>
+            {!service && service !== null && (
+              <div className="text-red-700">
+                Sorry! You are not eligible for this service.
+              </div>
+            )}
+            {service && service !== null && (
+              <div className="text-green-700">
+                YaY! You are eligible for this service.
+              </div>
+            )}
           </div>
         </div>
       </div>

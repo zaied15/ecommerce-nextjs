@@ -7,17 +7,18 @@ import {
   AiFillCloseCircle,
   AiFillMinusCircle,
   AiFillPlusCircle,
+  AiFillShopping,
 } from "react-icons/ai";
 
 const Navbar = () => {
   const ref = useRef();
   const toggleCart = () => {
-    if (ref.current.classList.contains("translate-x-full")) {
-      ref.current.classList.remove("translate-x-full");
-      ref.current.classList.add("translate-x-0");
-    } else if (!ref.current.classList.contains("translate-x-full")) {
-      ref.current.classList.remove("translate-x-0");
-      ref.current.classList.add("translate-x-full");
+    if (ref.current.classList.contains("hidden")) {
+      ref.current.classList.remove("hidden");
+      ref.current.classList.add("block");
+    } else if (!ref.current.classList.contains("hidden")) {
+      ref.current.classList.remove("none");
+      ref.current.classList.add("hidden");
     }
   };
   return (
@@ -50,7 +51,7 @@ const Navbar = () => {
       </div>
       <div
         ref={ref}
-        className="bg-slate-800 h-full w-80 absolute top-5 right-0 text-white transition-transform translate-x-full"
+        className="bg-slate-800 h-full w-80 absolute top-0 right-0 text-white transition-transform hidden"
       >
         <span
           className="absolute top-3 right-2 text-2xl cursor-pointer"
@@ -69,7 +70,8 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex justify-start ml-4 space-x-3">
-          <button className=" text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+          <button className=" text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded flex justify-center items-center">
+            <AiFillShopping />
             Checkout
           </button>
           <button className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">

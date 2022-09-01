@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-const Slug = () => {
+const Slug = ({ addToCart }) => {
   const router = useRouter();
   const { slug } = router.query;
   const [pin, setPin] = useState();
@@ -20,6 +20,7 @@ const Slug = () => {
   const pinChange = (e) => {
     setPin(e.target.value);
   };
+
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
@@ -178,8 +179,16 @@ const Slug = () => {
               <span className="title-font font-medium text-2xl text-gray-900">
                 $58.00
               </span>
-              <button className="flex ml-14 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+              <button
+                onClick={() => {
+                  addToCart(slug, 1, 400, "TeeSpring", "M", "Green");
+                }}
+                className="flex ml-4 md:ml-14 text-white bg-indigo-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-indigo-600 rounded"
+              >
                 Add to cart
+              </button>
+              <button className="flex ml-4 text-white bg-indigo-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                Buy now
               </button>
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                 <svg
@@ -226,4 +235,5 @@ const Slug = () => {
   );
 };
 
+export const { slug } = Slug;
 export default Slug;

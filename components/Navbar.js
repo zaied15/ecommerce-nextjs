@@ -10,7 +10,15 @@ import {
   AiFillShopping,
 } from "react-icons/ai";
 
-const Navbar = () => {
+const Navbar = ({
+  cart,
+  addToCart,
+  decreaseItem,
+  increaseItem,
+  clearCart,
+  subTotal,
+  removeFromCart,
+}) => {
   const ref = useRef();
   const toggleCart = () => {
     if (ref.current.classList.contains("hidden")) {
@@ -59,22 +67,58 @@ const Navbar = () => {
         >
           <AiFillCloseCircle />
         </span>
-        <div className="py-12 px-8 flex justify-between items-center space-x-2">
-          <ol className="list-decimal">
-            <li>T-shirt-Cotton</li>
-          </ol>
-          <div className="flex items-center justify-end text-lg pl-2">
-            <AiFillMinusCircle className="cursor-pointer" />
-            <span className="mx-1">1</span>
-            <AiFillPlusCircle className="cursor-pointer" />
-          </div>
+        <div className="py-12 px-8 ">
+          {Object.keys(cart).length == 0 && <p>Your cart is empty!</p>}
+          {Object.keys(cart).map((k) => {
+            return (
+              <div
+                key={k}
+                className="flex justify-between items-center space-x-2 my-1"
+              >
+                <ol className="list-decimal">
+                  <li>
+                    {cart[k].name}{" "}
+                    <span
+                      className="cursor-pointer"
+                      onClick={() => removeFromCart(k)}
+                    >
+                      X
+                    </span>
+                  </li>
+                </ol>
+                <div className="flex items-center justify-end text-lg pl-2">
+                  <AiFillMinusCircle
+                    onClick={() =>
+                      decreaseItem(
+                        k,
+                        1,
+                        cart[k].price,
+                        cart[k].name,
+                        cart[k].size,
+                        cart[k].variant
+                      )
+                    }
+                    className="cursor-pointer"
+                  />
+                  <span className="mx-1">{cart[k].qty}</span>
+                  <AiFillPlusCircle
+                    onClick={() => increaseItem(k, 1)}
+                    className="cursor-pointer"
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
         <div className="flex justify-start ml-4 space-x-3">
           <button className=" text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded flex justify-center items-center">
             <AiFillShopping />
             Checkout
           </button>
-          <button className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+          <button
+            onClick={clearCart}
+            className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+          >
             Clear Cart
           </button>
         </div>

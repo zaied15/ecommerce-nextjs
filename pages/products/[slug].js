@@ -1,11 +1,14 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-const Slug = ({ addToCart }) => {
+const Slug = ({ addToCart, cart }) => {
   const router = useRouter();
   const { slug } = router.query;
   const [pin, setPin] = useState();
   const [service, setService] = useState(null);
+
+  console.log(cart[slug]);
 
   const checkAvailibility = async () => {
     const pins = await fetch("http://localhost:3000/api/pinapi");
@@ -179,14 +182,22 @@ const Slug = ({ addToCart }) => {
               <span className="title-font font-medium text-2xl text-gray-900">
                 $58.00
               </span>
-              <button
-                onClick={() => {
-                  addToCart(slug, 1, 400, "TeeSpring", "M", "Green");
-                }}
-                className="flex ml-4 md:ml-14 text-white bg-indigo-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-indigo-600 rounded"
-              >
-                Add to cart
-              </button>
+              {!cart[slug] ? (
+                <button
+                  onClick={() => {
+                    addToCart(slug, 1, 400, "TeeSpring", "M", "Green");
+                  }}
+                  className="flex ml-4 md:ml-14 text-white bg-indigo-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                >
+                  Add to cart
+                </button>
+              ) : (
+                <Link href="/checkout">
+                  <button className="flex ml-4 md:ml-14 text-white bg-indigo-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                    Checkout
+                  </button>
+                </Link>
+              )}
               <button className="flex ml-4 text-white bg-indigo-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-indigo-600 rounded">
                 Buy now
               </button>

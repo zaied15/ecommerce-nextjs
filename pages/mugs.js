@@ -5,7 +5,7 @@ const Mugs = () => {
     <section className="text-gray-600 body-font">
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-wrap justify-center items-center">
-          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm m-3">
+          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md m-3">
             <a className="block relative rounded overflow-hidden">
               <img
                 alt="ecommerce"
@@ -23,7 +23,7 @@ const Mugs = () => {
               <p className="mt-1">$16.00</p>
             </div>
           </div>
-          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm m-3">
+          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md m-3">
             <a className="block relative rounded overflow-hidden">
               <img
                 alt="ecommerce"
@@ -41,7 +41,7 @@ const Mugs = () => {
               <p className="mt-1">$16.00</p>
             </div>
           </div>
-          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm m-3">
+          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md m-3">
             <a className="block relative rounded overflow-hidden">
               <img
                 alt="ecommerce"
@@ -59,7 +59,7 @@ const Mugs = () => {
               <p className="mt-1">$16.00</p>
             </div>
           </div>
-          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm m-3">
+          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md m-3">
             <a className="block relative rounded overflow-hidden">
               <img
                 alt="ecommerce"
@@ -77,7 +77,7 @@ const Mugs = () => {
               <p className="mt-1">$16.00</p>
             </div>
           </div>
-          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm m-3">
+          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md m-3">
             <a className="block relative rounded overflow-hidden">
               <img
                 alt="ecommerce"
@@ -95,7 +95,7 @@ const Mugs = () => {
               <p className="mt-1">$16.00</p>
             </div>
           </div>
-          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm m-3">
+          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md m-3">
             <a className="block relative rounded overflow-hidden">
               <img
                 alt="ecommerce"
@@ -113,7 +113,7 @@ const Mugs = () => {
               <p className="mt-1">$16.00</p>
             </div>
           </div>
-          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm m-3">
+          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md m-3">
             <a className="block relative rounded overflow-hidden">
               <img
                 alt="ecommerce"
@@ -131,7 +131,7 @@ const Mugs = () => {
               <p className="mt-1">$16.00</p>
             </div>
           </div>
-          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm m-3">
+          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md m-3">
             <a className="block relative rounded overflow-hidden">
               <img
                 alt="ecommerce"
@@ -149,7 +149,7 @@ const Mugs = () => {
               <p className="mt-1">$16.00</p>
             </div>
           </div>
-          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-sm m-3">
+          <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md m-3">
             <a className="block relative rounded overflow-hidden">
               <img
                 alt="ecommerce"

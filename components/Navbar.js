@@ -30,7 +30,7 @@ const Navbar = ({
     }
   };
   return (
-    <nav className="flex flex-col justify-center items-center md:flex-row md:justify-start shadow-md my-2 py-2">
+    <nav className="flex flex-col justify-center items-center md:flex-row md:justify-start shadow-md my-2 py-2 sticky top-0 z-10 bg-white">
       <div className="mx-5">
         <Link href="/">
           <a>
@@ -54,12 +54,18 @@ const Navbar = ({
           </li>
         </ul>
       </div>
-      <div onClick={toggleCart} className="absolute right-2 cursor-pointer">
+      <div
+        onClick={toggleCart}
+        className="absolute right-5 cursor-pointer text-xl"
+      >
         <AiOutlineShoppingCart />
+        <span className="absolute text-sm -right-4 -top-3 bg-indigo-500 rounded-full text-white w-5 h-5 flex justify-center items-center">
+          {Object.keys(cart).length}
+        </span>
       </div>
       <div
         ref={ref}
-        className="bg-slate-800 h-full w-80 absolute top-0 right-0 text-white transition-transform hidden"
+        className="bg-slate-800 h-[100vh] w-80 absolute top-0 right-0 text-white transition-transform hidden"
       >
         <span
           className="absolute top-3 right-2 text-2xl cursor-pointer"
@@ -75,16 +81,14 @@ const Navbar = ({
                 key={k}
                 className="flex justify-between items-center space-x-2 my-1"
               >
-                <ol className="list-decimal">
-                  <li>
-                    {cart[k].name}{" "}
-                    <span
-                      className="cursor-pointer"
-                      onClick={() => removeFromCart(k)}
-                    >
-                      X
-                    </span>
-                  </li>
+                <ol className="flex items-center space-x-2">
+                  <span
+                    className="cursor-pointer text-lg"
+                    onClick={() => removeFromCart(k)}
+                  >
+                    <AiFillCloseCircle />
+                  </span>{" "}
+                  <li>{cart[k].name} </li>
                 </ol>
                 <div className="flex items-center justify-end text-lg pl-2">
                   <AiFillMinusCircle
@@ -110,18 +114,30 @@ const Navbar = ({
             );
           })}
         </div>
-        <div className="flex justify-start ml-4 space-x-3">
-          <button className=" text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded flex justify-center items-center">
-            <AiFillShopping />
-            Checkout
-          </button>
-          <button
-            onClick={clearCart}
-            className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-          >
-            Clear Cart
-          </button>
-        </div>
+        {Object.keys(cart).length !== 0 && (
+          <div className="ml-4 mb-3 font-semibold">
+            <p>Sub Total: ${subTotal}</p>
+          </div>
+        )}
+        {Object.keys(cart).length !== 0 && (
+          <div className="flex justify-start ml-4 space-x-3">
+            <Link href="/checkout">
+              <button
+                onClick={toggleCart}
+                className=" text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded flex justify-center items-center"
+              >
+                <AiFillShopping />
+                Checkout
+              </button>
+            </Link>
+            <button
+              onClick={clearCart}
+              className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+            >
+              Clear Cart
+            </button>
+          </div>
+        )}
       </div>
     </nav>
   );

@@ -9,6 +9,7 @@ import {
   AiFillPlusCircle,
   AiFillShopping,
 } from "react-icons/ai";
+import { MdAccountBox } from "react-icons/md";
 
 const Navbar = ({
   cart,
@@ -54,11 +55,14 @@ const Navbar = ({
           </li>
         </ul>
       </div>
-      <div
-        onClick={toggleCart}
-        className="absolute right-5 cursor-pointer text-xl"
-      >
-        <AiOutlineShoppingCart />
+      <div className="absolute right-5 text-xl flex space-x-2">
+        <Link href="/login">
+          <MdAccountBox className="cursor-pointer" />
+        </Link>
+        <AiOutlineShoppingCart
+          onClick={toggleCart}
+          className="cursor-pointer"
+        />
         <span className="absolute text-sm -right-4 -top-3 bg-indigo-500 rounded-full text-white w-5 h-5 flex justify-center items-center">
           {Object.keys(cart).length}
         </span>

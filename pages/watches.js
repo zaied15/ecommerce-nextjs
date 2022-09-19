@@ -3,7 +3,7 @@ import Product from "../models/Product";
 import mongoose from "mongoose";
 import Link from "next/link";
 
-const Tshirt = ({ products }) => {
+const Watches = ({ products }) => {
   const [loadProduct, setLoadProduct] = useState(6);
   const productsLoad = () => {
     if (loadProduct < products.length) {
@@ -20,6 +20,13 @@ const Tshirt = ({ products }) => {
     <section className="text-gray-600 body-font">
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-wrap justify-center items-center">
+          {Object.keys(products).length == 0 && (
+            <h3 className="text-2xl font-bold">
+              {" "}
+              No products is available right now. Please stay tuned for coming
+              products!!!
+            </h3>
+          )}
           {Object.keys(products)
             .slice(0, loadProduct)
             .map((item) => (
@@ -57,31 +64,6 @@ const Tshirt = ({ products }) => {
                         {s}
                       </span>
                     ))}
-                    {/* {products[item].size.includes("SM") && (
-                      <span className="border border-gray-500 px-1 mr-1">
-                        SM
-                      </span>
-                    )}
-                    {products[item].size.includes("M") && (
-                      <span className="border border-gray-500 px-1 mr-1">
-                        M
-                      </span>
-                    )}
-                    {products[item].size.includes("L") && (
-                      <span className="border border-gray-500 px-1 mr-1">
-                        L
-                      </span>
-                    )}
-                    {products[item].size.includes("XL") && (
-                      <span className="border border-gray-500 px-1 mr-1">
-                        XL
-                      </span>
-                    )}
-                    {products[item].size.includes("XXL") && (
-                      <span className="border border-gray-500 px-1 mr-1">
-                        XXL
-                      </span>
-                    )} */}
                   </div>
                   <div className="my-2">
                     {products[item].color.map((c, i) => (
@@ -108,16 +90,6 @@ const Tshirt = ({ products }) => {
             </button>
           </div>
         )}
-        {/* {products.length <= loadProduct && (
-          <div className="text-center mt-3">
-            <button
-              onClick={productsLess}
-              className="text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg"
-            >
-              Less products..
-            </button>
-          </div>
-        )} */}
       </div>
     </section>
   );
@@ -127,34 +99,34 @@ export async function getServerSideProps(context) {
   if (!mongoose.connections[0].readyState) {
     await mongoose.connect(process.env.MONGO_URI);
   }
-  // let products = await Product.find({ category: "men's clothing" });
-  let products = await Product.find({ category: "tshirt" });
-  let tshirts = {};
+
+  let products = await Product.find({ category: "watch" });
+  let watches = {};
   for (let item of products) {
-    if (item.title in tshirts) {
+    if (item.title in watches) {
       if (
-        !tshirts[item.title].color.includes(item.color) &&
+        !watches[item.title].color.includes(item.color) &&
         item.availableQty > 0
       ) {
-        tshirts[item.title].color.push(item.color);
+        watches[item.title].color.push(item.color);
       }
       if (
-        !tshirts[item.title].size.includes(item.size) &&
+        !watches[item.title].size.includes(item.size) &&
         item.availableQty > 0
       ) {
-        tshirts[item.title].size.push(item.size);
+        watches[item.title].size.push(item.size);
       }
     } else {
-      tshirts[item.title] = JSON.parse(JSON.stringify(item));
+      watches[item.title] = JSON.parse(JSON.stringify(item));
       if (item.availableQty > 0) {
-        tshirts[item.title].color = [item.color];
-        tshirts[item.title].size = [item.size];
+        watches[item.title].color = [item.color];
+        watches[item.title].size = [item.size];
       }
     }
   }
   return {
-    props: { products: JSON.parse(JSON.stringify(tshirts)) },
+    props: { products: JSON.parse(JSON.stringify(watches)) },
   };
 }
 
-export default Tshirt;
+export default Watches;

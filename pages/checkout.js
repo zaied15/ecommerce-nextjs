@@ -1,4 +1,6 @@
 import React from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   AiFillCloseCircle,
   AiFillMinusCircle,
@@ -129,7 +131,9 @@ const Checkout = ({ cart, subTotal, removeFromCart }) => {
                   className="flex justify-start items-center space-x-2 my-1 bg-slate-800 px-3"
                 >
                   <ol className="flex items-center space-x-2 flex-grow">
-                    <li>{cart[k].name} </li>
+                    <li>
+                      {cart[k].name} ({cart[k].size} / {cart[k].variant}){" "}
+                    </li>
                   </ol>
                   <div className="flex items-center justify-end text-lg pl-2 px-5">
                     <AiFillMinusCircle
@@ -186,7 +190,20 @@ const Checkout = ({ cart, subTotal, removeFromCart }) => {
         </div>
         {/* Pay now button */}
         <div className="mt-3 font-semibold">
-          <button className=" text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded flex justify-center items-center">
+          <button
+            onClick={() =>
+              toast.success("Hello Bangladesh", {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              })
+            }
+            className=" text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded flex justify-center items-center"
+          >
             <AiOutlineShopping className="text-2xl" /> Pay ${subTotal}
           </button>
         </div>

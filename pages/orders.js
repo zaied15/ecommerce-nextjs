@@ -1,13 +1,29 @@
-import mongoose from "mongoose";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import Order from "../models/Order";
+import React, { useEffect, useState } from "react";
+const jwt = require("jsonwebtoken");
 
-const Orders = ({ order }) => {
+const Orders = () => {
   const router = useRouter();
+  const [orders, setOrders] = useState([]);
+
   useEffect(() => {
+    const fetchOrders = async () => {
+      const token = localStorage.getItem("token");
+      const a = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/getorder`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      });
+      const res = await a.json();
+      setOrders(res.orders);
+    };
     if (!localStorage.getItem("token")) {
       router.push("/");
+    } else {
+      fetchOrders();
     }
   }, []);
   return (
@@ -19,13 +35,13 @@ const Orders = ({ order }) => {
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  Product name
+                  # Order Id
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Color
+                  Name
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Quantity
+                  Email
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Price
@@ -39,57 +55,33 @@ const Orders = ({ order }) => {
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
+              {orders.map((order) => (
+                <tr
+                  key={order._id}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
-                  Apple MacBook Pro 17
-                </th>
-                <td className="px-6 py-4">Sliver</td>
-                <td className="px-6 py-4">10</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">Pending</td>
-                <td className="px-6 py-4">
-                  <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">
-                    Cancel
-                  </button>
-                </td>
-              </tr>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
-                >
-                  Microsoft Surface Pro
-                </th>
-                <td className="px-6 py-4">White</td>
-                <td className="px-6 py-4">10</td>
-                <td className="px-6 py-4">$1999</td>
-                <td className="px-6 py-4">Pending</td>
-                <td className="px-6 py-4">
-                  <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">
-                    Cancel
-                  </button>
-                </td>
-              </tr>
-              <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
-                >
-                  Magic Mouse 2
-                </th>
-                <td className="px-6 py-4">Black</td>
-                <td className="px-6 py-4">10</td>
-                <td className="px-6 py-4">$99</td>
-                <td className="px-6 py-4">Pending</td>
-                <td className="px-6 py-4">
-                  <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">
-                    Cancel
-                  </button>
-                </td>
-              </tr>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
+                  >
+                    {order.orderId}
+                  </th>
+                  <td className="px-6 py-4">{order.name}</td>
+                  <td className="px-6 py-4">{order.userId}</td>
+                  <td className="px-6 py-4">${order.amount}</td>
+                  <td className="px-6 py-4">{order.status}</td>
+                  <td className="px-6 py-4">
+                    <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-red-600 border-0 py-2 px-2 focus:outline-none hover:bg-red-700 rounded">
+                      Cancel
+                    </button>
+                    <Link href={`/order?id=${order.orderId}`}>
+                      <button className="lg:mt-2 xl:mt-0 ml-2 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-2 focus:outline-none hover:bg-indigo-600 rounded">
+                        Details
+                      </button>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -99,18 +91,18 @@ const Orders = ({ order }) => {
   );
 };
 
-export async function getServerSideProps(context) {
-  if (!mongoose.connections[0].readyState) {
-    await mongoose.connect(process.env.MONGO_URI);
-  }
+// export async function getServerSideProps(context) {
+//   if (!mongoose.connections[0].readyState) {
+//     await mongoose.connect(process.env.MONGO_URI);
+//   }
 
-  let orders = await Order.find({});
+//   let orders = await Order.find({});
 
-  return {
-    props: {
-      orders: orders,
-    },
-  };
-}
+//   return {
+//     props: {
+//       orders: orders,
+//     },
+//   };
+// }
 
 export default Orders;

@@ -10,13 +10,14 @@ const handler = async (req, res) => {
       if (
         req.body.email == user.email &&
         req.body.password ==
-          CryptoJS.AES.decrypt(user.password, "secret123").toString(
-            CryptoJS.enc.Utf8
-          )
+          CryptoJS.AES.decrypt(
+            user.password,
+            `${process.env.AES_SECRET}`
+          ).toString(CryptoJS.enc.Utf8)
       ) {
         const token = jwt.sign(
           { email: user.email, name: user.name },
-          "jwtsecret",
+          `${process.env.JWT_SECRET}`,
           { expiresIn: "1h" }
         );
         res.status(200).json({ success: true, token });

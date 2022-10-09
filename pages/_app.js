@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState({ value: null });
   const [key, setKey] = useState();
   const [progress, setProgress] = useState(0);
+  const [oid, setOid] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -36,6 +37,19 @@ function MyApp({ Component, pageProps }) {
     if (token) {
       setUser({ value: token });
       setKey(Math.random());
+    }
+
+    const hours = 1;
+    const now = new Date().getTime();
+    const setupTime = localStorage.getItem("setupTime");
+    if (setupTime == null) {
+      localStorage.setItem("setupTime", now);
+    } else {
+      if (now - setupTime > hours * 60 * 60 * 1000) {
+        setUser({ value: null });
+        localStorage.removeItem("token");
+        localStorage.setItem("setupTime", now);
+      }
     }
   }, [router.query]);
 
@@ -62,7 +76,8 @@ function MyApp({ Component, pageProps }) {
   };
 
   const buyNow = (title, qty, price, name, size, variant) => {
-    let newCart = { title: { qty, price, name, size, variant } };
+    let newCart = {};
+    newCart[title] = { qty, price, name, size, variant };
     setCart(newCart);
     saveCart(newCart);
     router.push("/checkout");
